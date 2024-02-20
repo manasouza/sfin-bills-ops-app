@@ -1,0 +1,11 @@
+<mat-toolbar color="primary">
+  <h1>SFin Bills Operator</h1>
+  <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/category/list">Category Mapping</button>
+  </mat-menu>
+  <button id="appMenu" mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+  </button>
+</mat-toolbar>
+
+<router-outlet></router-outlet>
