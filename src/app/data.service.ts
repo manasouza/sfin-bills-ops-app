@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Bill } from './domain/Bill';
 import { Category } from './domain/Category';
-import { FirestoreService } from './firestore.service';
-import { SpreadsheetService } from './spreadsheet.service';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -41,7 +39,6 @@ export class DataService {
   }
 
   saveCategory(category: Category, callback: Function) {
-    // this.firestore.createKeyValue(category.name, category.value)
     this.http.post(`${this.endpoint}${this.categoryResource}`, category)
       .subscribe(resp => callback(resp))
   }
