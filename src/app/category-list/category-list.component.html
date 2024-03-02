@@ -1,10 +1,13 @@
 
 <mat-form-field>
     <mat-label>Filter</mat-label>
-    <input matInput placeholder="Search columns" #input>
+    <input matInput placeholder="Search columns" (keyup)="applyFilter($event)"#input>
 </mat-form-field>
+<tr class="mat-row no-data-row" *matNoDataRow>
+  <td class="mat-cell">No data matching the filter "{{input.value}}"</td>
+</tr>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table mat-table [dataSource]="categoryMapData" class="mat-elevation-z8">
     
     <ng-container matColumnDef="categoryKey">
       <th mat-header-cell *matHeaderCellDef> Category Key </th>

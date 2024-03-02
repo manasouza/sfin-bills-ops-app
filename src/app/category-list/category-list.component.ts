@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { DataService } from '../data.service';
-import { MatTable } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-category-list',
@@ -13,7 +13,8 @@ export class CategoryListComponent {
   @ViewChild(MatTable)
   table!: MatTable<any>;
   
-  dataSource = []
+  categoryMapData = []
+  dataSource = new MatTableDataSource();
 
   displayedColumns = ['categoryKey', 'categoryValue']
 
@@ -22,14 +23,22 @@ export class CategoryListComponent {
 
   ngOnInit() {
     this.data.getCategoriesMap((allCategories: []) => {
-      // console.log(allCategories)
-      // let tableRegistry:never[] = []
-      // allCategories.forEach((map) => {
-      //   tableRegistry.push(map['k'], map['v'])
-      // })
-      this.dataSource = allCategories
-      console.log(this.dataSource)      
-      // this.table.renderRows()
+      this.categoryMapData = allCategories
+      console.log(this.categoryMapData)
+      this.dataSource.data = this.categoryMapData
+      console.log(this.dataSource.data)
     })  
   }
+  
+  applyFilter(event: KeyboardEvent) {
+    const filterValue = (event.target as HTMLInputElement).value
+    console.log(filterValue);
+    console.log(this.dataSource.data)
+    console.log(this.dataSource.filteredData)
+    this.dataSource.filter = filterValue.trim().toLowerCase()
+    console.log(this.dataSource.filteredData)
+    this.dataSource.data = this.dataSource.filteredData
+    this.table.renderRows()
+  }
+    
 }
