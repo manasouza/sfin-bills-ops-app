@@ -16,12 +16,14 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { FormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu'
 import { MatTableModule } from "@angular/material/table";
+import { MatProgressSpinner } from "@angular/material/progress-spinner"
 
 import { ListComponent } from './list/list.component';
 import { CategoryComponent } from './category/category.component'
 
 import { HttpClientModule } from '@angular/common/http';
 import { CategoryListComponent } from './category-list/category-list.component';
+import { LoadingComponent } from './loading/loading.component';
 
 
 @NgModule({
@@ -29,7 +31,8 @@ import { CategoryListComponent } from './category-list/category-list.component';
     AppComponent,
     ListComponent,
     CategoryComponent,
-    CategoryListComponent
+    CategoryListComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,8 @@ import { CategoryListComponent } from './category-list/category-list.component';
     MatInputModule,
     MatMenuModule,
     MatTableModule,
-    HttpClientModule
+    MatProgressSpinner,
+    HttpClientModule,
   ],
   providers: [
     provideAnimationsAsync()

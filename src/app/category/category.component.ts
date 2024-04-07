@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Category } from '../domain/Category';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-category',
@@ -13,7 +15,10 @@ export class CategoryComponent {
   category = new Category()
   categories = ["Supermercado", "Esporte", "Farmácia", "Consultas", "Transporte"]
 
-  // dataService = new DataService()
+  isLoading = new BehaviorSubject<boolean>(false)
+  isLoading$ = this.isLoading.asObservable()
+  
+
   constructor(
     private data: DataService,
     private router: Router) {}
@@ -28,6 +33,7 @@ export class CategoryComponent {
 
   save() {
     let handleResponse = (result: boolean) => {
+      this.isLoading.next(false)
       if (result) {
         console.log(`[INFO] new category created: ${result}`)
         this.category.name = ""
@@ -35,5 +41,6 @@ export class CategoryComponent {
       }
     }
     this.data.saveCategory(this.category, handleResponse)
+    this.isLoading.next(true)
   }
 }
