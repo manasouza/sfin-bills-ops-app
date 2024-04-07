@@ -29,7 +29,9 @@ export class CategoryComponent {
   save() {
     let handleResponse = (result: boolean) => {
       if (result) {
-
+        console.log(`[INFO] new category created: ${result}`)
+        this.category.name = ""
+        this.category.value = ""
       }
     }
     this.data.saveCategory(this.category, handleResponse)

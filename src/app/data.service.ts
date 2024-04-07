@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Bill } from './domain/Bill';
 import { Category } from './domain/Category';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +39,9 @@ export class DataService {
   }
 
   saveCategory(category: Category, callback: Function) {
-    this.http.post(`${this.endpoint}${this.categoryResource}`, category)
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    const options = { headers: headers };
+    this.http.post(`${this.endpoint}${this.categoryResource}`, category, options)
       .subscribe(resp => callback(resp))
   }
 
