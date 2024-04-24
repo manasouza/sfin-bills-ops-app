@@ -9,15 +9,15 @@
         <mat-card-content>{{b.date}}</mat-card-content>
     </mat-card-header>
     <mat-card-content>
-        <mat-select name="categories">
+        <mat-select name="categories" #selectedCategory>
             <mat-option *ngFor="let c of categories" [value]="c">
               {{ c }}
             </mat-option>
-          </mat-select> 
+        </mat-select>
     </mat-card-content>
     <mat-card-actions>
         <button mat-button (click)="details(b)"><mat-icon>details</mat-icon>Details</button>
-        <button mat-button><mat-icon>share</mat-icon>Save</button>
+        <button mat-button (click)="saveCategory(b.name, selectedCategory.value)"><mat-icon>share</mat-icon>Save</button>
     </mat-card-actions>
 </mat-card>
 

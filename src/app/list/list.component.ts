@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DataService } from '../data.service';
 import { Bill } from '../domain/Bill';
 import { Router } from '@angular/router';
+import { Category } from '../domain/Category';
 
 @Component({
   selector: 'app-list',
@@ -32,9 +33,23 @@ export class ListComponent {
     })
   }
 
+  saveCategory(categoryName: string, categoryValue: string) {
+    let handleResponse = (result: boolean) => {
+      if (result) {
+        console.log("[INFO] Category saved successfully")
+      } else {
+        console.log("[INFO] Category data may be inconsistent")
+      }
+    }
+    // Need to add .toString() because it was being interpreted as string array on backend
+    let c = new Category(categoryName, categoryValue.toString())
+    this.data.saveCategory(c, handleResponse)
+  }
+
   ngOnInit() {
-    this.data.getRecentBills((bills: Bill[]) => {
-      this.list = bills
+    this.data.getRecentBills((billName: string) => {
+      console.log(`[INFO] pending category added: ${billName}`)
+      this.list.push(new Bill("", "2024", billName, null, 0))
     })
     this.allCategoryValues()
   }
