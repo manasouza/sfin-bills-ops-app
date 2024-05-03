@@ -47,9 +47,11 @@ export class ListComponent {
   }
 
   ngOnInit() {
-    this.data.getRecentBills((billName: string) => {
-      console.log(`[INFO] pending category added: ${billName}`)
-      this.list.push(new Bill("", "2024", billName, null, 0))
+    this.data.getRecentBills((pendingBills: string[]) => {
+      pendingBills.forEach(billName => {
+        console.log(`[INFO] pending category added: ${billName.toString()}`)        
+        this.list.push(new Bill("", "2024", billName.toString(), null, 0))
+      });
     })
     this.allCategoryValues()
   }
