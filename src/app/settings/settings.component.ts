@@ -23,7 +23,7 @@ export class SettingsComponent implements OnInit {
   loadSettings() {
     this.isLoading.next(true)
     this.data.getSettings((result: Settings) => {
-      this.settings.columnOffset = result.columnOffset
+      this.settings.columnOffsets = result.columnOffsets || new Settings().columnOffsets
       this.isLoading.next(false)
     })
   }
@@ -32,7 +32,7 @@ export class SettingsComponent implements OnInit {
     this.message = ""
     this.isLoading.next(true)
     this.data.saveSettings(this.settings, (result: Settings) => {
-      this.settings.columnOffset = result.columnOffset
+      this.settings.columnOffsets = result.columnOffsets || new Settings().columnOffsets
       this.message = "Settings saved"
       this.isLoading.next(false)
     })

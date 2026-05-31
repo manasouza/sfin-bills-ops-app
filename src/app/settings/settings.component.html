@@ -9,8 +9,13 @@
 
   <mat-card-content>
     <mat-form-field>
-      <mat-label>Column Offset</mat-label>
-      <input matInput type="number" min="0" name="columnOffset" [(ngModel)]="settings.columnOffset">
+      <mat-label>Pix Column Offset</mat-label>
+      <input matInput type="number" min="0" name="pixColumnOffset" [(ngModel)]="settings.columnOffsets['pix']">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Comprovante Column Offset</mat-label>
+      <input matInput type="number" min="0" name="comprovanteColumnOffset" [(ngModel)]="settings.columnOffsets['comprovante']">
     </mat-form-field>
 
     <p *ngIf="message">{{ message }}</p>

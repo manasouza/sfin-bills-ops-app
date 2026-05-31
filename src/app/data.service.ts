@@ -48,7 +48,7 @@ export class DataService {
       .subscribe(resp => callback(resp))
   }
 
-  saveSettings(settings: { columnOffset: number }, callback: Function) {
+  saveSettings(settings: { columnOffsets: { [source: string]: number } }, callback: Function) {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     const options = { headers: headers };
     this.http.put(`${this.endpoint}${this.settingsResource}`, settings, options)
