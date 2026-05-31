@@ -11,6 +11,7 @@ export class DataService {
   private categoryResource = "/categories"
   private categoryMappingResource = "/categories/mapping"
   private categoryUnmappedResource = "/categories/unmapped"
+  private settingsResource = "/settings"
 
   constructor(private http: HttpClient) { }
 
@@ -39,6 +40,18 @@ export class DataService {
     const options = { headers: headers };
     console.log("[INFO] save category: " + category.toString())
     this.http.post(`${this.endpoint}${this.categoryResource}`, category, options)
+      .subscribe(resp => callback(resp))
+  }
+
+  getSettings(callback: Function) {
+    this.http.get(`${this.endpoint}${this.settingsResource}`)
+      .subscribe(resp => callback(resp))
+  }
+
+  saveSettings(settings: { columnOffset: number }, callback: Function) {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    const options = { headers: headers };
+    this.http.put(`${this.endpoint}${this.settingsResource}`, settings, options)
       .subscribe(resp => callback(resp))
   }
 
