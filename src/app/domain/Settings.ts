@@ -1,5 +1,8 @@
 export class Settings {
     constructor(
-        public columnOffset: number = 4
+        public columnOffsets: { [source: string]: number } = {
+            pix: 4,
+            comprovante: 0
+        }
     ) {}
 }

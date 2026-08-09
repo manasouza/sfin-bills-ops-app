@@ -40,7 +40,13 @@ export class DataService {
     const options = { headers: headers };
     console.log("[INFO] save category: " + category.toString())
     this.http.post(`${this.endpoint}${this.categoryResource}`, category, options)
-      .subscribe(resp => callback(resp))
+      .subscribe(
+        () => callback(true),
+        error => {
+          console.error('[ERROR] saveCategory', error)
+          callback(false)
+        }
+      )
   }
 
   getSettings(callback: Function) {

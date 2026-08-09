@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { Bill } from '../domain/Bill';
 import { Router } from '@angular/router';
@@ -9,9 +9,11 @@ import { Category } from '../domain/Category';
   templateUrl: './list.component.html',
   styleUrl: './list.component.css'
 })
-export class ListComponent {
+export class ListComponent implements OnInit {
 
   list: Bill[] = []
+  isLoading: boolean = true
+  private seenBills: Set<string> = new Set<string>()
 
   categories = ["Sample Item"]
 
@@ -33,25 +35,42 @@ export class ListComponent {
     })
   }
 
-  saveCategory(categoryName: string, categoryValue: string) {
+  saveCategory(bill: Bill, categoryValue: string) {
+    if (!categoryValue) {
+      console.warn('[WARN] No category selected for save.')
+      return
+    }
+
     let handleResponse = (result: boolean) => {
       if (result) {
         console.log("[INFO] Category saved successfully")
+        this.list = this.list.filter(item => item !== bill)
+        this.seenBills.delete(bill.name)
       } else {
         console.log("[INFO] Category data may be inconsistent")
       }
     }
     // Need to add .toString() because it was being interpreted as string array on backend
-    let c = new Category(categoryName, categoryValue.toString())
+    let c = new Category(bill.name, categoryValue.toString())
     this.data.saveCategory(c, handleResponse)
   }
 
   ngOnInit() {
+    this.isLoading = true
     this.data.getRecentBills((pendingBills: string[]) => {
-      pendingBills.forEach(billName => {
-        console.log(`[INFO] pending category added: ${billName.toString()}`)        
-        this.list.push(new Bill("", "2024", billName.toString(), null, 0))
-      });
+      if (Array.isArray(pendingBills)) {
+        pendingBills.forEach(billName => {
+          const name = billName.toString()
+          if (!this.seenBills.has(name)) {
+            console.log(`[INFO] pending category added: ${name}`)
+            this.seenBills.add(name)
+            this.list.push(new Bill("", "2024", name, null, 0))
+          } else {
+            console.log(`[DEBUG] duplicate suppressed: ${name}`)
+          }
+        })
+      }
+      this.isLoading = false
     })
     this.allCategoryValues()
   }
