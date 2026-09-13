@@ -24,6 +24,7 @@ import { CategoryComponent } from './category/category.component'
 import { HttpClientModule } from '@angular/common/http';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { LoadingComponent } from './loading/loading.component';
+import { SettingsComponent } from './settings/settings.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { LoadingComponent } from './loading/loading.component';
     ListComponent,
     CategoryComponent,
     CategoryListComponent,
-    LoadingComponent
+    LoadingComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
