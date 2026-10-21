@@ -12,6 +12,7 @@ export class DataService {
   private categoryMappingResource = "/categories/mapping"
   private categoryUnmappedResource = "/categories/unmapped"
   private settingsResource = "/settings"
+  private documentsResource = "/documents"
 
   constructor(private http: HttpClient) { }
 
@@ -59,6 +60,22 @@ export class DataService {
     const options = { headers: headers };
     this.http.put(`${this.endpoint}${this.settingsResource}`, settings, options)
       .subscribe(resp => callback(resp))
+  }
+
+  getDocumentById(documentId: string, callback: Function) {
+    this.http.get(`${this.endpoint}${this.documentsResource}/${encodeURIComponent(documentId)}`)
+      .subscribe(
+        resp => callback(resp),
+        error => callback(error.error ?? { message: 'Registry not found' })
+      )
+  }
+
+  deleteDocumentById(documentId: string, callback: Function) {
+    this.http.delete(`${this.endpoint}${this.documentsResource}/${encodeURIComponent(documentId)}`)
+      .subscribe(
+        resp => callback(resp),
+        error => callback(error.error ?? { message: 'Registry not found' })
+      )
   }
 
 }
