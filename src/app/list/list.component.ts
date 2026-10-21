@@ -57,21 +57,26 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading = true
-    this.data.getRecentBills((pendingBills: string[]) => {
-      if (Array.isArray(pendingBills)) {
-        pendingBills.forEach(billName => {
-          const name = billName.toString()
-          if (!this.seenBills.has(name)) {
-            console.log(`[INFO] pending category added: ${name}`)
-            this.seenBills.add(name)
-            this.list.push(new Bill("", "2024", name, null, 0))
-          } else {
-            console.log(`[DEBUG] duplicate suppressed: ${name}`)
-          }
-        })
+    this.data.getRecentBills(
+      (pendingBills: string[]) => {
+        if (Array.isArray(pendingBills)) {
+          pendingBills.forEach(billName => {
+            const name = billName.toString()
+            if (!this.seenBills.has(name)) {
+              console.log(`[INFO] pending category added: ${name}`)
+              this.seenBills.add(name)
+              this.list.push(new Bill("", "2024", name, null, 0))
+            } else {
+              console.log(`[DEBUG] duplicate suppressed: ${name}`)
+            }
+          })
+        }
+        this.isLoading = false
+      },
+      () => {
+        this.isLoading = false
       }
-      this.isLoading = false
-    })
+    )
     this.allCategoryValues()
   }
 }

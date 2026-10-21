@@ -16,24 +16,60 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
 
-  getRecentBills(callback: Function) {
+  getRecentBills(callback: Function, errorHandler?: Function) {
     this.http.get(`${this.endpoint}${this.categoryUnmappedResource}`)
-      .subscribe(resp => callback(resp))
+      .subscribe({
+        next: resp => callback(resp),
+        error: (err) => {
+          console.error('[ERROR] getRecentBills', err)
+          callback([])
+          if (errorHandler) {
+            errorHandler(err)
+          }
+        }
+      })
   }
   
-  healthcheck(callback: Function) {
+  healthcheck(callback: Function, errorHandler?: Function) {
     this.http.get(`${this.endpoint}`)
-      .subscribe(resp => callback(resp))
+      .subscribe({
+        next: resp => callback(resp),
+        error: (err) => {
+          console.error('[ERROR] healthcheck', err)
+          callback({ ok: false, message: 'Service unavailable' })
+          if (errorHandler) {
+            errorHandler(err)
+          }
+        }
+      })
   }
 
-  getCategories(callback: Function) {
+  getCategories(callback: Function, errorHandler?: Function) {
     this.http.get(`${this.endpoint}${this.categoryResource}`)
-      .subscribe(resp => callback(resp))
+      .subscribe({
+        next: resp => callback(resp),
+        error: (err) => {
+          console.error('[ERROR] getCategories', err)
+          callback([])
+          if (errorHandler) {
+            errorHandler(err)
+          }
+        }
+      })
   }
 
-  getCategoriesMap(callback: Function) {
+  getCategoriesMap(callback: Function, errorHandler?: Function) {
     this.http.get(`${this.endpoint}${this.categoryMappingResource}`)
-      .subscribe(resp => callback(resp))
+      .subscribe({
+        next: resp => callback(resp),
+        error: (err) => {
+          console.error('[ERROR] getCategoriesMap', err)
+          callback([])
+          if (errorHandler) {
+            errorHandler(err)
+          }
+        }
+      })
   }
 
   saveCategory(category: Category, callback: Function) {
